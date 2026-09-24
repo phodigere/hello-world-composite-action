@@ -26,7 +26,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "dist/build.tar.gz"
+          source: "dist/helloworld-0.0.1.tar.gz"
           target: "/home/${{ secrets.EC2_USERNAME }}/app-deploy/"
 
       # 6. Connect via SSH, extract the build, and restart the server
