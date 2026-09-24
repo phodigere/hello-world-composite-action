@@ -19,6 +19,13 @@ jobs:
         run: |
           make package
 
+      # 4. Debug connectivity
+      - name: debug-connectivity
+        image: alpine
+        commands:
+          - apk add --no-cache netcat-openbsd
+          - nc -zv -w 5 13.51.206.205 22
+
       # 5. Copy the package to the EC2 instance using SCP
       - name: Copy Build to EC2 via SCP
         uses: appleboy/scp-action@v0.1.7
