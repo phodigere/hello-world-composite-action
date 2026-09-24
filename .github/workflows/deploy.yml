@@ -16,9 +16,8 @@ jobs:
 
       # 2. Debug connectivity
       - name: debug-connectivity
-        run:
-          - apk add --no-cache netcat-openbsd
-          - nc -zv -w 5 13.51.206.205 22
+        run: |
+          nc -zv -w 5 13.51.206.205 22
 
       # 3. Install dependencies and compile the build
       - name: Install & Build
