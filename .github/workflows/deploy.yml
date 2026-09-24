@@ -1,0 +1,46 @@
+name: Build and Push to AWS EC2
+
+on:
+  push:
+    branches:
+      - main # Triggers the workflow whenever you push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the repository code
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      # 3. Install dependencies and compile the build
+      - name: Install & Build
+        run: |
+          make package
+
+      # 5. Copy the package to the EC2 instance using SCP
+      - name: Copy Build to EC2 via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "dist/build.tar.gz"
+          target: "/home/${{ secrets.EC2_USERNAME }}/app-deploy/"
+
+      # 6. Connect via SSH, extract the build, and restart the server
+      - name: Deploy and Restart Application via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/${{ secrets.EC2_USERNAME }}/app-deploy/
+            
+            # Extract the new build files
+            tar -xzf helloworld-0.0.1.tar.gz
+            
+            # Clean up the archive
+            rm helloworld-0.0.1.tar.gz
