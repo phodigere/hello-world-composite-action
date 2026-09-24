@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - id: foo
-        uses: phodigere/hello-world-composite-action@e1f5db2
+        uses: phodigere/hello-world-composite-action@e1f5db2c2096037ef0e31502cadb966ff4217a56
         with:
           who-to-greet: 'The only one: Ekameva'
       - run: echo random-number "$RANDOM_NUMBER"
