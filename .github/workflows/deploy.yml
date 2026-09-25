@@ -14,12 +14,20 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v6
 
-      # 2. Debug connectivity
-      - name: debug-connectivity
-        run: |
-          nc -zv -w 5 13.51.206.205 22
+      # Step 2: Authenticate to AWS using OIDC
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::325054522547:role/Ekameva_Engineering
+          aws-region: eu-north-1b
+          audience: ://amazonaws.com
 
-      # 3. Install dependencies and compile the build
+      # Step 3: Verify the connection by interacting with AWS
+      - name: Test AWS Connection
+        run: |
+          aws sts get-caller-identity
+
+      # 4. Install dependencies and compile the build
       - name: Install & Build
         run: |
           make package
