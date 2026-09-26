@@ -21,7 +21,7 @@ jobs:
 
       # Step 2: Authenticate to AWS using OIDC
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6.3.0
         with:
           role-to-assume: arn:aws:iam::325054522547:role/Ekameva_Engineering
           aws-region: eu-north-1
