@@ -24,7 +24,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::325054522547:role/Ekameva_Engineering
-          aws-region: eu-north-1b
+          aws-region: eu-north-1
           audience: ://amazonaws.com
 
       # Step 3: Verify the connection by interacting with AWS
