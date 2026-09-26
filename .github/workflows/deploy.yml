@@ -9,6 +9,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    # Add these permissions to your job
+    permissions:
+      id-token: write # Required to request the OIDC JWT token
+      contents: read  # Required for actions like actions/checkout
+
     steps:
       # 1. Check out the repository code
       - name: Checkout Code
