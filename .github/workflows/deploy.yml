@@ -50,7 +50,7 @@ jobs:
       # 5. Get the specific public IP of this exact GitHub cloud runner instance
       - name: Get GitHub Runner Public IP
         id: ip
-        run: echo "ipv4=$(curl -s https://ipify.org)" >> $GITHUB_OUTPUT
+        run: echo "ipv4=$(curl -s https://api.ipify.org)" >> $GITHUB_OUTPUT
 
       # 6. Punch a temporary hole in your Security Group just for this IP
       - name: Open Port 22 in AWS Security Group
