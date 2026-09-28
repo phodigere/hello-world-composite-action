@@ -73,17 +73,7 @@ jobs:
         run: |
           scp -v -i ~/.ssh/id_rsa -r ./dist/*.tar.gz ec2-user@13.51.206.205:/home/ec2-user/app-deploy/
 
-      # 8. Clean up the firewall rule immediately (even if the build fails)
-      - name: Close Port 22 in AWS Security Group
-        if: always()
-        run: |
-          aws ec2 revoke-security-group-ingress \
-            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
-            --protocol tcp \
-            --port 22 \
-            --cidr ${{ steps.ip.outputs.ipv4 }}/32
-
-      # 9. Connect via SSH, extract the build, and restart the server
+      # 8. Connect via SSH, extract the build, and restart the server
       - name: Deploy and Restart Application via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -98,3 +88,14 @@ jobs:
             
             # Clean up the archive
             rm helloworld-0.0.1.tar.gz
+
+      # 9. Clean up the firewall rule immediately (even if the build fails)
+      - name: Close Port 22 in AWS Security Group
+        if: always()
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
